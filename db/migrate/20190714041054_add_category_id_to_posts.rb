@@ -1,5 +1,5 @@
 class AddCategoryIdToPosts < ActiveRecord::Migration[5.2]
   def change
-    add_reference :posts, :category, foreign_key: true, index: true, after: :body
+    add_reference :posts, :user, foreign_key: true, index: true, after: :category_id
   end
 end
