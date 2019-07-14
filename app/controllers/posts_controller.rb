@@ -2,8 +2,7 @@ class PostsController < ApplicationController
   before_action :set_post, only: [ :show, :edit, :update, :destroy]
 
   def index
-    @posts = Post.order(created_at: :desc)
-    @new_posts = Post.order(created_at: :desc).limit(5)
+    @new_posts = Post.find_newest_article
   end
 
   def new
@@ -16,7 +15,7 @@ class PostsController < ApplicationController
       user_id: current_user.id
     }
     if @post.save
-      redirect_to @post, notice: "ブログを登録しました。"
+      redirect_to user_post_path(current_user, @post), notice: "ブログを登録しました。"
     else
       render :new
     end
@@ -30,7 +29,7 @@ class PostsController < ApplicationController
 
   def update
     if @post.update(post_params)
-      redirect_to @post, notice: "ブログを更新しました。"
+      redirect_to user_post_path(current_user, @post), notice: "ブログを更新しました。"
     else
       render :edit
     end
